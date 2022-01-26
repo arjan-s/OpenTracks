@@ -2,7 +2,6 @@ package de.dennisguse.opentracks.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.List;
 
 import de.dennisguse.opentracks.R;
@@ -26,7 +23,6 @@ import de.dennisguse.opentracks.data.models.Track;
 import de.dennisguse.opentracks.databinding.StatisticsRecordingBinding;
 import de.dennisguse.opentracks.services.TrackRecordingService;
 import de.dennisguse.opentracks.services.TrackRecordingServiceConnection;
-import de.dennisguse.opentracks.services.handlers.GpsStatusValue;
 import de.dennisguse.opentracks.settings.PreferencesUtils;
 import de.dennisguse.opentracks.ui.customRecordingLayout.Layout;
 import de.dennisguse.opentracks.viewmodels.StatisticData;
@@ -80,9 +76,6 @@ public class StatisticsRecordingFragment extends Fragment {
     private final TrackRecordingServiceConnection.Callback bindChangedCallback = service -> {
         service.getRecordingDataObservable()
                 .observe(StatisticsRecordingFragment.this, this::onRecordingDataChanged);
-
-        service.getGpsStatusObservable()
-                .observe(StatisticsRecordingFragment.this, this::onGpsStatusChanged);
     };
 
     @Override
@@ -175,19 +168,5 @@ public class StatisticsRecordingFragment extends Fragment {
         }
 
         updateUI();
-    }
-
-    private void onGpsStatusChanged(GpsStatusValue gpsStatusValue) {
-        Log.e("probando", "onGpsStautsChanged: is started? " + gpsStatusValue.isGpsStarted() + " | " + gpsStatusValue);
-        Snackbar snackbar = Snackbar
-                .make(viewBinding.getRoot(), "GPS Status changed: " + gpsStatusValue, Snackbar.LENGTH_INDEFINITE)
-                .setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-        snackbar.show();
-
     }
 }
