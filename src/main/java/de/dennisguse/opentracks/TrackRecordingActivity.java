@@ -19,6 +19,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import de.dennisguse.opentracks.chart.ChartFragment;
@@ -57,6 +58,8 @@ public class TrackRecordingActivity extends AbstractActivity implements ChooseAc
     private static final String TAG = TrackRecordingActivity.class.getSimpleName();
 
     private static final String CURRENT_TAB_TAG_KEY = "current_tab_tag_key";
+
+    private final EnumSet<GpsStatusValue> dismissedStatus = EnumSet.noneOf(GpsStatusValue.class);
 
     // The following are setFrequency in onCreate
     private ContentProviderUtils contentProviderUtils;
@@ -405,14 +408,13 @@ public class TrackRecordingActivity extends AbstractActivity implements ChooseAc
     }
 
     private void onGpsStatusChanged(GpsStatusValue gpsStatusValue) {
-        var coordinatorLayout = viewBinding.trackRecordingCoordinatorLayout;
-        if (coordinatorLayout == null) {
+        if (viewBinding.trackRecordingCoordinatorLayout == null || dismissedStatus.contains(gpsStatusValue)) {
             return;
         }
         Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, getString(gpsStatusValue.message), Snackbar.LENGTH_INDEFINITE)
-                .setAction("OK", v -> {
-
+                .make(viewBinding.trackRecordingCoordinatorLayout, getString(gpsStatusValue.message), Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(android.R.string.ok), v -> {
+                    dismissedStatus.add(gpsStatusValue);
                 });
         snackbar.show();
     }
