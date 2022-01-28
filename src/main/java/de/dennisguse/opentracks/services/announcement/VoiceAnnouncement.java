@@ -179,7 +179,7 @@ public class VoiceAnnouncement {
         tts.speak(announcement, TextToSpeech.QUEUE_FLUSH, null, "not used");
     }
 
-    public void shutdown() {
+    public void stop() {
         if (tts != null) {
             tts.shutdown();
             tts = null;
