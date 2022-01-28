@@ -334,40 +334,29 @@ limitations under the License.
         <item name="cardUseCompatPadding">true</item>
     </style>
 
-
-
-
-
-
-
-
-
-
-    <style name="Widget.App.Snackbar" parent="Widget.MaterialComponents.Snackbar">
-
-        <!--this child makes changes to the background color of the snackbar-->
+    <!-- Snackbar -->
+    <style name="MaterialSnackbarTheme" parent="@style/Widget.MaterialComponents.Snackbar">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Snackbar</item>
-        <!--if this is made 0 then the action button text color will be white-->
-        <!--if this is 1 then the custom color can be set to action button text-->
         <item name="actionTextColorAlpha">1</item>
+
+        <item name="backgroundTint">@android:color/holo_red_dark</item>
     </style>
 
-    <!--this is child is needed only when there is action button in snackbar-->
-    <!--otherwise this is not necessary-->
-    <!--in this case the action button color inside the snackbar is set to red-->
-
-
-    <style name="Widget.App.SnackbarButton" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
-
-        <item name="android:textColor">#000000</item>
-
+    <style name="MaterialSnackbarTextButtonTheme" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="backgroundTint">#7777ff</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="MaterialSnackbarTextViewTheme" parent="@style/Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">?textAppearanceLabelMedium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
-
-    <!--this color inside this child is the background color of the snackbar-->
     <style name="ThemeOverlay.App.Snackbar" parent="">
         <item name="colorSurface">@android:color/holo_red_dark</item>
         <item name="colorOnSurface">@android:color/holo_red_dark</item>
     </style>
+
 </resources>

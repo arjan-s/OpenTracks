@@ -405,13 +405,12 @@ public class TrackRecordingActivity extends AbstractActivity implements ChooseAc
     }
 
     private void onGpsStatusChanged(GpsStatusValue gpsStatusValue) {
-        Log.e("probando", "onGpsStautsChanged: is started? " + gpsStatusValue.isGpsStarted() + " | " + gpsStatusValue);
         var coordinatorLayout = viewBinding.trackRecordingCoordinatorLayout;
         if (coordinatorLayout == null) {
             return;
         }
         Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, "GPS Status changed: " + gpsStatusValue, Snackbar.LENGTH_INDEFINITE)
+                .make(coordinatorLayout, getString(gpsStatusValue.message), Snackbar.LENGTH_INDEFINITE)
                 .setAction("OK", v -> {
 
                 });
