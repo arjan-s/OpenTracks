@@ -23,6 +23,12 @@ limitations under the License.
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
 
         <item name="windowActionModeOverlay">true</item>
+
+        <!--this is makes changes to the entire snackbar-->
+        <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
+
+        <!--this item is optional as all the snackbar wont contain the action button-->
+        <item name="snackbarButtonStyle">@style/Widget.App.SnackbarButton</item>
     </style>
 
     <style name="SplashTheme" parent="ThemeCustom">
