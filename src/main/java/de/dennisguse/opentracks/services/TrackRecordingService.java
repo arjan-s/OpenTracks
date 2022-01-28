@@ -235,7 +235,7 @@ public class TrackRecordingService extends Service implements TrackPointCreator.
             trackRecordingManager.end(trackPointCreator);
         }
 
-        endRecording(true);
+        endRecording(() -> recordingDataObservable.postValue(NOT_RECORDING));
 
         ExportUtils.postWorkoutExport(this, trackId);
 
@@ -254,23 +254,16 @@ public class TrackRecordingService extends Service implements TrackPointCreator.
 
         trackRecordingManager.pause(trackPointCreator);
 
-        endRecording(false);
+        endRecording(this::updateRecordingDataWhileRecording);
 
         notificationManager.updateContent(getString(R.string.generic_paused));
     }
 
-    private void endRecording(boolean trackStopped) {
+    private void endRecording(Runnable post) {
         stopUpdateRecordingData();
-        if (!trackStopped) {
-            updateRecordingDataWhileRecording();
-        } else {
-            recordingDataObservable.postValue(NOT_RECORDING);
-        }
+        post.run();
 
         voiceAnnouncementManager.shutdown();
-
-        // Update instance variables
-        trackPointCreator.stop();
 
         stopSensors();
     }
