@@ -59,7 +59,7 @@ public class TrackRecordingActivity extends AbstractActivity implements ChooseAc
 
     private static final String CURRENT_TAB_TAG_KEY = "current_tab_tag_key";
 
-    private final EnumSet<GpsStatusValue> dismissedStatus = EnumSet.noneOf(GpsStatusValue.class);
+    private boolean isDismissed = false;
 
     // The following are setFrequency in onCreate
     private ContentProviderUtils contentProviderUtils;
@@ -408,13 +408,15 @@ public class TrackRecordingActivity extends AbstractActivity implements ChooseAc
     }
 
     private void onGpsStatusChanged(GpsStatusValue gpsStatusValue) {
-        if (viewBinding.trackRecordingCoordinatorLayout == null || dismissedStatus.contains(gpsStatusValue)) {
+        if (viewBinding.trackRecordingCoordinatorLayout == null || isDismissed || !(gpsStatusValue == GpsStatusValue.GPS_DISABLED || gpsStatusValue == GpsStatusValue.GPS_NONE)) {
             return;
         }
         Snackbar snackbar = Snackbar
-                .make(viewBinding.trackRecordingCoordinatorLayout, getString(gpsStatusValue.message), Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(android.R.string.ok), v -> {
-                    dismissedStatus.add(gpsStatusValue);
+                .make(viewBinding.trackRecordingCoordinatorLayout,
+                        getString(R.string.gps_recording_status, getString(gpsStatusValue.message), getString(R.string.gps_recording_without_signal)),
+                        Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.generic_dismiss), v -> {
+                    isDismissed = true;
                 });
         snackbar.show();
     }
