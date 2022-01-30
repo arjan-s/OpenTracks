@@ -19,7 +19,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import de.dennisguse.opentracks.chart.ChartFragment;
@@ -59,7 +58,7 @@ public class TrackRecordingActivity extends AbstractActivity implements ChooseAc
 
     private static final String CURRENT_TAB_TAG_KEY = "current_tab_tag_key";
 
-    private boolean isDismissed = false;
+    private Snackbar snackbar;
 
     // The following are setFrequency in onCreate
     private ContentProviderUtils contentProviderUtils;
@@ -408,16 +407,18 @@ public class TrackRecordingActivity extends AbstractActivity implements ChooseAc
     }
 
     private void onGpsStatusChanged(GpsStatusValue gpsStatusValue) {
-        if (viewBinding.trackRecordingCoordinatorLayout == null || isDismissed || !(gpsStatusValue == GpsStatusValue.GPS_DISABLED || gpsStatusValue == GpsStatusValue.GPS_NONE)) {
+        if (gpsStatusValue.isGpsStarted() && snackbar != null && snackbar.isShown()) {
+            snackbar.dismiss();
             return;
         }
-        Snackbar snackbar = Snackbar
+        if (viewBinding.trackRecordingCoordinatorLayout == null || gpsStatusValue != GpsStatusValue.GPS_DISABLED) {
+            return;
+        }
+        snackbar = Snackbar
                 .make(viewBinding.trackRecordingCoordinatorLayout,
                         getString(R.string.gps_recording_status, getString(gpsStatusValue.message), getString(R.string.gps_recording_without_signal)),
                         Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(R.string.generic_dismiss), v -> {
-                    isDismissed = true;
-                });
+                .setAction(getString(R.string.generic_dismiss), v -> {});
         snackbar.show();
     }
 }

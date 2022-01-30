@@ -56,7 +56,7 @@ class GpsStatus {
 
         public void stop() {
             stopped = true;
-            sendStatus(gpsStatus, GpsStatusValue.GPS_NONE);
+            sendStatus(gpsStatus, GpsStatusValue.GPS_DISABLED);
         }
     }
 
@@ -83,7 +83,6 @@ class GpsStatus {
      * The client that uses GpsStatus has to call this method to stop the Runnable if needed.
      */
     public void stop() {
-        client.onGpsStatusChanged(gpsStatus, GpsStatusValue.GPS_NONE);
         client = null;
         if (gpsStatusRunner != null) {
             gpsStatusRunner.stop();
