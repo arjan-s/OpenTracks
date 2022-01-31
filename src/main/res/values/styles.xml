@@ -343,7 +343,6 @@ limitations under the License.
     </style>
 
     <style name="MaterialSnackbarTextButtonTheme" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
-        <item name="backgroundTint">#7777ff</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>
     </style>
