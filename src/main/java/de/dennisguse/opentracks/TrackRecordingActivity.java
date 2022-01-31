@@ -411,7 +411,7 @@ public class TrackRecordingActivity extends AbstractActivity implements ChooseAc
             snackbar.dismiss();
             return;
         }
-        if (viewBinding.trackRecordingCoordinatorLayout == null || gpsStatusValue != GpsStatusValue.GPS_DISABLED) {
+        if (gpsStatusValue != GpsStatusValue.GPS_DISABLED) {
             return;
         }
         snackbar = Snackbar
